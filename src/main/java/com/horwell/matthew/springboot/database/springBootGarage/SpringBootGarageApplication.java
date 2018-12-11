@@ -1,0 +1,14 @@
+package com.horwell.matthew.springboot.database.springBootGarage;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+@EnableJpaAuditing
+@SpringBootApplication
+public class SpringBootGarageApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootGarageApplication.class, args);
+	}
+}
