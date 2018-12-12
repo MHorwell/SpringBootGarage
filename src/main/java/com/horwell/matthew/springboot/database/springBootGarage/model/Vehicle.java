@@ -7,16 +7,21 @@ package com.horwell.matthew.springboot.database.springBootGarage.model;
 	import javax.persistence.TemporalType;
 	import javax.validation.constraints.NotBlank;
 
-	import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
 	import org.springframework.data.annotation.LastModifiedDate;
 	import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 	import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.horwell.matthew.springboot.database.springBootGarage.repository.SpringBootGarageRepository;
 
 	@Entity
 	@Table(name = "vehicle")
 	@EntityListeners(AuditingEntityListener.class)
 	@JsonIgnoreProperties(value = {"creationDate","lastModified"}, allowGetters = true)
+	@DynamicInsert(true)
+	@DynamicUpdate(true)
 
 	public class Vehicle implements Serializable{
 		
@@ -46,6 +51,27 @@ package com.horwell.matthew.springboot.database.springBootGarage.model;
 		@Temporal(TemporalType.TIMESTAMP)
 		@LastModifiedDate
 		private Date lastModified;
+		
+		public Vehicle() {
+			
+		}
+		
+		public Vehicle(String type, String manufacturer, String model, String colour, int yearMade) {
+			this.type = type;
+			this.manufacturer = manufacturer;
+			this.model = model;
+			this.colour = colour;
+			this.yearMade = yearMade;
+		}
+		
+		public Vehicle(Long Id, String type, String manufacturer, String model, String colour, int yearMade) {
+			this.Id = Id;
+			this.type = type;
+			this.manufacturer = manufacturer;
+			this.model = model;
+			this.colour = colour;
+			this.yearMade = yearMade;
+		}
 
 		public Long getId() {
 			return Id;
@@ -110,7 +136,6 @@ package com.horwell.matthew.springboot.database.springBootGarage.model;
 		public void setLastModified(Date lastModified) {
 			this.lastModified = lastModified;
 		}
-		
 		
 
 }

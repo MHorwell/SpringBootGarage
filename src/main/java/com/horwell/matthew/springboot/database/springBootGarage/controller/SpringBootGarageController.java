@@ -39,7 +39,7 @@ public class SpringBootGarageController {
 	}
 	
     @GetMapping("/vehicle/colour/{colour}")
-    public List<Vehicle> getFiltered(@PathVariable(value = "colour")String colour) {
+    public List<Vehicle> findByColour(@PathVariable(value = "colour")String colour) {
         return repository.findByColour(colour);
     }
 	
@@ -65,24 +65,7 @@ public class SpringBootGarageController {
 		return updateData;
 	}
 	
-	@PutMapping("/vehicle/{id}")
-	public Vehicle updateVehicleModel(@PathVariable(value = "id") Long vehicleID, 
-			@Valid @RequestBody Vehicle vehicleDetails) {
-		Vehicle sDGM = repository.findById(vehicleID)
-				.orElseThrow(()-> new ResourceNotFoundException("Vehicle","id",vehicleID));
-		
-		sDGM.setType(vehicleDetails.getType());
-		sDGM.setManufacturer(vehicleDetails.getManufacturer());
-		sDGM.setModel(vehicleDetails.getModel());
-		sDGM.setColour(vehicleDetails.getColour());
-		sDGM.setYearMade(vehicleDetails.getYearMade());
-		
-		
-		Vehicle updateData = repository.save(sDGM);
-		return updateData;
-	}
-	
-	
+
 	@DeleteMapping("/vehicle/{id}")
 	public ResponseEntity<?> deleteVehicle(@PathVariable(value = "id")Long vehicleID){
 		Vehicle sDGM = repository.findById(vehicleID)

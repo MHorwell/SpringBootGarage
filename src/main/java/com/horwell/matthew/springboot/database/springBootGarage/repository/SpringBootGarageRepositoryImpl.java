@@ -20,8 +20,7 @@ public class SpringBootGarageRepositoryImpl implements SpringBootGarageRepositor
 	@Override
 	public List<Vehicle> findByColour(String colour) {
 		
-		Query query = entityManager.createNativeQuery("SELECT em.* FROM springbootgarage.vehicle as em " +
-				"WHERE colour = ?", Vehicle.class);
+		Query query = entityManager.createNativeQuery("SELECT em.* FROM springbootgarage.vehicle as em WHERE colour = ?", Vehicle.class);
 		query.setParameter(1, colour);
 		
 		return query.getResultList();
