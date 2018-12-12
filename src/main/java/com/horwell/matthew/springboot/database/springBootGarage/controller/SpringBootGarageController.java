@@ -39,8 +39,8 @@ public class SpringBootGarageController {
 	}
 	
     @GetMapping("/vehicle/colour/{colour}")
-    public List<Vehicle> findByColour(@PathVariable(value = "colour")String colour) {
-        return repository.findByColour(colour);
+    public List<Vehicle> findByColour(@PathVariable(value = "colour")String vehicleColour) {
+        return repository.findByColour(vehicleColour);
     }
 	
 	@GetMapping("/vehicle")

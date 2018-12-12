@@ -1,6 +1,5 @@
 package repository;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 
@@ -41,8 +40,7 @@ public class RepositoryTest {
 		Vehicle model = new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0);
 		entityManager.persist(model);
 		entityManager.flush();
-		assertNotNull(testRepository.findByColour("testColour"));
-		//.stream().findFirst().isPresent());
+		assertTrue(testRepository.findByColour(model.getColour()).stream().findFirst().isPresent());
 	}
 	
 	

@@ -63,15 +63,6 @@ import com.horwell.matthew.springboot.database.springBootGarage.repository.Sprin
 			this.colour = colour;
 			this.yearMade = yearMade;
 		}
-		
-		public Vehicle(Long Id, String type, String manufacturer, String model, String colour, int yearMade) {
-			this.Id = Id;
-			this.type = type;
-			this.manufacturer = manufacturer;
-			this.model = model;
-			this.colour = colour;
-			this.yearMade = yearMade;
-		}
 
 		public Long getId() {
 			return Id;

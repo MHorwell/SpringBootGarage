@@ -69,9 +69,9 @@ public class IntegrationTest {
 	@Test
 	public void putToVehicle()
 			throws Exception {
-		long id = 1;
-		repository.save(new Vehicle(id, "testType", "testManufacturer", "testModel", "testColour", 0));
-		mvc.perform(MockMvcRequestBuilders.put("/api/vehicle/" + id)
+		Vehicle testVehicle = new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0);
+		repository.save(testVehicle);
+		mvc.perform(MockMvcRequestBuilders.put("/api/vehicle/" + testVehicle.getId())
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"type\" : \"Car\","
 						+ "\"manufacturer\" : \"Suzuki\","
@@ -81,6 +81,22 @@ public class IntegrationTest {
 		.andExpect(status().isOk())
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 		.andExpect(jsonPath("$.model", is("Wagon R")));
+	}
+	
+	@Test
+	public void deleteVehicle()
+	throws Exception {
+		Vehicle testVehicle = new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0);
+		repository.save(testVehicle);
+		mvc.perform(MockMvcRequestBuilders.delete("/api/vehicle/" + testVehicle.getId())
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+		
+		mvc.perform(MockMvcRequestBuilders.delete("/api/vehicle/" + testVehicle.getId())
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNotFound());
+				
+		
 	}
 	
 
