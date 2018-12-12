@@ -22,7 +22,6 @@ import com.horwell.matthew.springboot.database.springBootGarage.model.Vehicle;
 import com.horwell.matthew.springboot.database.springBootGarage.repository.SpringBootGarageRepository;
 
 @RunWith(SpringRunner.class)
-//@ContextConfiguration(classes=SpringBootGarageApplication.class)
 @SpringBootTest(classes = {SpringBootGarageApplication.class})
 @AutoConfigureMockMvc
 public class IntegrationTest {
@@ -32,17 +31,17 @@ public class IntegrationTest {
 	private MockMvc mvc;
 	
 	@Autowired
-	private SpringBootGarageRepository repository;
+	private SpringBootGarageRepository testrepository;
 	
 	@Before
 	public void emptyDB() {
-		repository.deleteAll();
+		testrepository.deleteAll();
 	}
 	
 	@Test
 	public void findAndRetrieveVehicleFromDatabase()
 	throws Exception{
-		repository.save(new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0));
+		testrepository.save(new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0));
 		mvc.perform(get("/api/vehicle")
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
@@ -70,7 +69,7 @@ public class IntegrationTest {
 	public void putToVehicle()
 			throws Exception {
 		Vehicle testVehicle = new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0);
-		repository.save(testVehicle);
+		testrepository.save(testVehicle);
 		mvc.perform(MockMvcRequestBuilders.put("/api/vehicle/" + testVehicle.getId())
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"type\" : \"Car\","
@@ -87,7 +86,7 @@ public class IntegrationTest {
 	public void deleteVehicle()
 	throws Exception {
 		Vehicle testVehicle = new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0);
-		repository.save(testVehicle);
+		testrepository.save(testVehicle);
 		mvc.perform(MockMvcRequestBuilders.delete("/api/vehicle/" + testVehicle.getId())
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
