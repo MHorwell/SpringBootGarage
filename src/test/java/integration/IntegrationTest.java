@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.horwell.matthew.springboot.database.springBootGarage.SpringBootGarageApplication;
 import com.horwell.matthew.springboot.database.springBootGarage.model.Vehicle;
 import com.horwell.matthew.springboot.database.springBootGarage.repository.SpringBootGarageRepository;
@@ -25,7 +26,6 @@ import com.horwell.matthew.springboot.database.springBootGarage.repository.Sprin
 @SpringBootTest(classes = {SpringBootGarageApplication.class})
 @AutoConfigureMockMvc
 public class IntegrationTest {
-	
 	
 	@Autowired
 	private MockMvc mvc;
@@ -68,18 +68,45 @@ public class IntegrationTest {
 	@Test
 	public void putToVehicle()
 			throws Exception {
+		ObjectMapper vehicleToJson = new ObjectMapper();
 		Vehicle testVehicle = new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0);
 		testrepository.save(testVehicle);
+		
+		Vehicle changedVehicle = new Vehicle("Car", "Suzuki", "Wagon R", "Purple", 2004);
+		String jsonString = vehicleToJson.writeValueAsString(changedVehicle);
+		
 		mvc.perform(MockMvcRequestBuilders.put("/api/vehicle/" + testVehicle.getId())
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"type\" : \"Car\","
-						+ "\"manufacturer\" : \"Suzuki\","
-						+ "\"model\" : \"Wagon R\","
-						+ "\"colour\" : \"Purple\","
-						+ "\"yearMade\" : 2004}"))
+				.content(jsonString))
 		.andExpect(status().isOk())
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$.model", is("Wagon R")));
+		.andExpect(jsonPath("$.type", is("Car")))
+		.andExpect(jsonPath("$.manufacturer", is("Suzuki")))
+		.andExpect(jsonPath("$.model", is("Wagon R")))
+		.andExpect(jsonPath("$.colour", is("Purple")))
+		.andExpect(jsonPath("$.yearMade", is(2004)));
+	}
+	
+	@Test
+	public void addToVehicle() throws Exception {
+		ObjectMapper vehicleToJson = new ObjectMapper();
+		Vehicle testVehicle = new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0);
+		testrepository.save(testVehicle);
+		
+		Vehicle emptyVehicle = new Vehicle();
+		String jsonString = vehicleToJson.writeValueAsString(emptyVehicle);
+		
+		mvc.perform(MockMvcRequestBuilders.put("/api/vehicle/" + testVehicle.getId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(jsonString))
+		.andExpect(status().isOk())
+		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.type", is("testType")))
+		.andExpect(jsonPath("$.manufacturer", is("testManufacturer")))
+		.andExpect(jsonPath("$.model", is("testModel")))
+		.andExpect(jsonPath("$.colour", is("testColour")))
+		.andExpect(jsonPath("$.yearMade", is(0)));
+		
 	}
 	
 	@Test
@@ -94,8 +121,6 @@ public class IntegrationTest {
 		mvc.perform(MockMvcRequestBuilders.delete("/api/vehicle/" + testVehicle.getId())
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotFound());
-				
-		
 	}
 	
 

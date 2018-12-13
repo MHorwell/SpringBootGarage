@@ -16,8 +16,7 @@ import com.horwell.matthew.springboot.database.springBootGarage.model.Vehicle;
 import com.horwell.matthew.springboot.database.springBootGarage.repository.SpringBootGarageRepository;
 
 @RunWith(SpringRunner.class)
-
-@ContextConfiguration(classes=SpringBootGarageApplication.class)
+@ContextConfiguration(classes= {SpringBootGarageApplication.class})
 @DataJpaTest
 public class RepositoryTest {
 	

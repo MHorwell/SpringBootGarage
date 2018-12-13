@@ -29,13 +29,10 @@ import com.horwell.matthew.springboot.database.springBootGarage.repository.Sprin
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long Id;
 		
-		@NotBlank
 		private String type;
 		
-		@NotBlank
 		private String manufacturer;
 		
-		@NotBlank
 		private String model;
 		
 		private String colour;

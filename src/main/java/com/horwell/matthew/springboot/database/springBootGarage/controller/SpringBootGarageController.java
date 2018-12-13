@@ -1,7 +1,6 @@
 package com.horwell.matthew.springboot.database.springBootGarage.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -53,6 +52,21 @@ public class SpringBootGarageController {
 			@Valid @RequestBody Vehicle vehicleDetails) {
 		Vehicle sDGM = repository.findById(vehicleID)
 				.orElseThrow(()-> new ResourceNotFoundException("Vehicle","id",vehicleID));
+		if (vehicleDetails.getType() == null){
+			vehicleDetails.setType(sDGM.getType());
+		}
+		if (vehicleDetails.getManufacturer() == null){
+			vehicleDetails.setManufacturer(sDGM.getManufacturer());
+		}
+		if (vehicleDetails.getModel() == null){
+			vehicleDetails.setModel(sDGM.getModel());
+		}
+		if (vehicleDetails.getColour() == null) {
+			vehicleDetails.setColour(sDGM.getColour());
+		}
+		if (vehicleDetails.getYearMade() == 0) {
+			vehicleDetails.setYearMade(sDGM.getYearMade());
+		}
 		
 		sDGM.setType(vehicleDetails.getType());
 		sDGM.setManufacturer(vehicleDetails.getManufacturer());
