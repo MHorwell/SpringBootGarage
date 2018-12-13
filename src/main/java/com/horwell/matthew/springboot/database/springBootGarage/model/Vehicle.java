@@ -27,7 +27,7 @@ import com.horwell.matthew.springboot.database.springBootGarage.repository.Sprin
 		
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private Long Id;
+		private Long id;
 		
 		private String type;
 		
@@ -62,11 +62,11 @@ import com.horwell.matthew.springboot.database.springBootGarage.repository.Sprin
 		}
 
 		public Long getId() {
-			return Id;
+			return id;
 		}
 
 		public void setId(Long id) {
-			Id = id;
+			this.id = id;
 		}
 
 		public String getManufacturer() {

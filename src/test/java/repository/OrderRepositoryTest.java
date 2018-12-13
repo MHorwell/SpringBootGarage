@@ -2,7 +2,6 @@ package repository;
 
 import static org.junit.Assert.assertTrue;
 
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,38 +14,27 @@ import com.horwell.matthew.springboot.database.springBootGarage.SpringBootGarage
 import com.horwell.matthew.springboot.database.springBootGarage.model.Order;
 import com.horwell.matthew.springboot.database.springBootGarage.model.Vehicle;
 import com.horwell.matthew.springboot.database.springBootGarage.repository.OrderRepository;
-import com.horwell.matthew.springboot.database.springBootGarage.repository.SpringBootGarageRepository;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes= {SpringBootGarageApplication.class})
+@ContextConfiguration(classes = { SpringBootGarageApplication.class })
 @DataJpaTest
-public class RepositoryTest {
+public class OrderRepositoryTest {
 	
 	@Autowired
 	private TestEntityManager entityManager;
-	
+
 	@Autowired
-	private SpringBootGarageRepository testRepository;
+	private OrderRepository testOrderRepository;
 
-	
 	@Test
-	public void findByID() {
-		Vehicle model = new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0);
-		entityManager.persist(model);
+	public void findByOrderID() {
+		Vehicle testVehicle = new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0);
+		Order testOrder = new Order("testTitle", "testDescription", testVehicle);
+		entityManager.persist(testVehicle);
+		entityManager.persist(testOrder);
 		entityManager.flush();
-		assertTrue(testRepository.findById(model.getId()).isPresent());
+		assertTrue(testOrderRepository.findById(testOrder.getId()).isPresent());
 	}
-	
 
-	
-	@Test
-	public void findByColour() {
-		Vehicle model = new Vehicle("testType", "testManufacturer", "testModel", "testColour", 0);
-		entityManager.persist(model);
-		entityManager.flush();
-		assertTrue(testRepository.findByColour(model.getColour()).stream().findFirst().isPresent());
-	}
-	
-	
 
 }

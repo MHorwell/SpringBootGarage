@@ -52,6 +52,7 @@ public class SpringBootGarageController {
 			@Valid @RequestBody Vehicle vehicleDetails) {
 		Vehicle sDGM = repository.findById(vehicleID)
 				.orElseThrow(()-> new ResourceNotFoundException("Vehicle","id",vehicleID));
+		
 		if (vehicleDetails.getType() == null){
 			vehicleDetails.setType(sDGM.getType());
 		}
@@ -75,11 +76,9 @@ public class SpringBootGarageController {
 		sDGM.setYearMade(vehicleDetails.getYearMade());
 		
 		
-		Vehicle updateData = repository.save(sDGM);
-		return updateData;
+		return repository.save(sDGM);
 	}
 	
-
 	@DeleteMapping("/vehicle/{id}")
 	public ResponseEntity<?> deleteVehicle(@PathVariable(value = "id")Long vehicleID){
 		Vehicle sDGM = repository.findById(vehicleID)
@@ -87,6 +86,5 @@ public class SpringBootGarageController {
 		repository.delete(sDGM);
 		return ResponseEntity.ok().build();
 	}
-
 
 }

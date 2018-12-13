@@ -80,11 +80,11 @@ public class IntegrationTest {
 				.content(jsonString))
 		.andExpect(status().isOk())
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$.type", is("Car")))
-		.andExpect(jsonPath("$.manufacturer", is("Suzuki")))
-		.andExpect(jsonPath("$.model", is("Wagon R")))
-		.andExpect(jsonPath("$.colour", is("Purple")))
-		.andExpect(jsonPath("$.yearMade", is(2004)));
+		.andExpect(jsonPath("$.type", is(changedVehicle.getType())))
+		.andExpect(jsonPath("$.manufacturer", is(changedVehicle.getManufacturer())))
+		.andExpect(jsonPath("$.model", is(changedVehicle.getModel())))
+		.andExpect(jsonPath("$.colour", is(changedVehicle.getColour())))
+		.andExpect(jsonPath("$.yearMade", is(changedVehicle.getYearMade())));
 	}
 	
 	@Test
@@ -101,14 +101,14 @@ public class IntegrationTest {
 				.content(jsonString))
 		.andExpect(status().isOk())
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$.type", is("testType")))
-		.andExpect(jsonPath("$.manufacturer", is("testManufacturer")))
-		.andExpect(jsonPath("$.model", is("testModel")))
-		.andExpect(jsonPath("$.colour", is("testColour")))
-		.andExpect(jsonPath("$.yearMade", is(0)));
+		.andExpect(jsonPath("$.type", is(testVehicle.getType())))
+		.andExpect(jsonPath("$.manufacturer", is(testVehicle.getManufacturer())))
+		.andExpect(jsonPath("$.model", is(testVehicle.getModel())))
+		.andExpect(jsonPath("$.colour", is(testVehicle.getColour())))
+		.andExpect(jsonPath("$.yearMade", is(testVehicle.getYearMade())));
 		
 	}
-	
+	 
 	@Test
 	public void deleteVehicle()
 	throws Exception {
@@ -122,6 +122,7 @@ public class IntegrationTest {
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotFound());
 	}
+
 	
 
 }
